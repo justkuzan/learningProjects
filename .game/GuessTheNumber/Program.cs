@@ -24,36 +24,36 @@ namespace GuessTheNumber
                     higher = Math.Min(100, rand.Next(number + 1, number + 10));
                 } while (higher - lower <= 5);
 
-                System.Console.WriteLine($"Мы загадали число от 0 до 100, оно больше чем {lower}, но меньше чем {higher}");
-                System.Console.WriteLine($"Что это за число? У вас {triesCount} попыток отгадать");
+                System.Console.WriteLine($"We guessed a number between 0 and 100, it is greater than {lower}, but less than {higher}");
+                System.Console.WriteLine($"What is this number? You have {triesCount} attempts to guess");
 
                 while (triesCount -- > 0)
                 {
-                    System.Console.Write("Ваш ответ: ");
+                    System.Console.Write("Your Answer: ");
                     userInput = Convert.ToInt32(Console.ReadLine());
                     if(userInput == number)
                     {
-                        System.Console.WriteLine($"Вы правы. Это было число {number}");
+                        System.Console.WriteLine($"You are right. It was number {number}");
                         break;
                     }
                     else
                     {
-                        System.Console.WriteLine("Не верно, попробуйте еще раз");
-                        System.Console.WriteLine($"У вас осталось {triesCount} попыток");
+                        System.Console.WriteLine("Not correct, try again");
+                        System.Console.WriteLine($"You have {triesCount} attempts left");
                         System.Console.WriteLine("---------------------------------------");
                     }
                 }
 
                 if (triesCount < 0)
                 {
-                    System.Console.WriteLine("Вы проиграли, увы, но повезет в следующий раз. Это было число " + number);
+                    System.Console.WriteLine("You lost, alas, but better luck next time. It was a number " + number);
                 }
                 else
                 {
-                    System.Console.WriteLine($"Вы отгадали за {5 - triesCount} попытки");
+                    System.Console.WriteLine($"You guessed in {5 - triesCount} attempts");
                 }
 
-                System.Console.WriteLine("Хотите сыграть еще раз? (y/n)");
+                System.Console.WriteLine("Do you want to play again? (y/n)");
                 string? playAgain = Console.ReadLine();
                 if (playAgain?.ToLower() != "y")
                 {
