@@ -43,7 +43,7 @@ namespace GuessTheNumber
             Console.ReadKey();            
         }
         
-        public static string? AskToPlayAgain()
+        public static string AskToPlayAgain()
         {
             System.Console.WriteLine("Do you want to play again? (y/n)");
             string? input = Console.ReadLine();
@@ -82,13 +82,6 @@ namespace GuessTheNumber
         }
     }
     
-    class Program
-    {
-        public static void Main()
-        { 
-            GameController.PlayGame();
-        }
-    }
 
     class GameController
     {
@@ -134,7 +127,7 @@ namespace GuessTheNumber
 
         private static void AskToPlayAgain()
         {
-            string? choice = View.AskToPlayAgain();
+            string choice = View.AskToPlayAgain();
 
             if (choice == "continue")
             {
@@ -144,6 +137,14 @@ namespace GuessTheNumber
             {
                 View.Exit();
             }
+        }
+    }
+    
+    class Program
+    {
+        public static void Main()
+        { 
+            GameController.PlayGame();
         }
     }
 }
