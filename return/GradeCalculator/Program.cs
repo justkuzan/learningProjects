@@ -1,80 +1,55 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
-
-namespace Return;
-
-/* Я изначально хотел вынести оценки отдельно, чтобы потом их было легче менеджерить, но передумал.
-Возможно их стоило вынести как диапазон и проверять введенное пользователем число с диапазонами */
-
-// class Grades  
-// {
-//  int A = 100;
-//  int B = 90;
-//  int C = 80;
-//  int D = 70;
-//  int F = 60;
-// }
 
 class View
 {
-    public static void Greetings()
+    public static int AskNumber()
     {
+        Console.Clear();
         System.Console.WriteLine("Enter the student's grade");
+        int userNumber = Convert.ToInt32(Console.ReadLine());
+        return userNumber;
     }
-    public static void Response(int userNumber, string value)
+
+    public static void ResponseNegative(int userNumber)
     {   
-        if (userNumber >= 0 && userNumber <= 100)
-        {
-            System.Console.WriteLine($"A score of {userNumber} is equal to a score of {value}");
-        }
-        else
-        {
-            System.Console.WriteLine( $"It's bullshit, he couldn't get {userNumber} points.");
-        }
+        System.Console.WriteLine( $"It's bullshit, he couldn't get {userNumber} points.");
+    }
+
+    public static void ResponsePositive(int userNumber, string value)
+    {
+        System.Console.WriteLine($"A score of {userNumber} is equal to a score of {value}");
     }
 }
 
 class Program
 {
     public static void Main()
-    {   
-        View.Greetings();   
+    {
+        int userNumber = View.AskNumber();
         
-        int userNumber = Convert.ToInt32(Console.ReadLine());
-        string value = GradeCalculator(userNumber);
-        
-        View.Response(userNumber, value);
+        if (userNumber < 0 || userNumber > 100)
+        {
+            View.ResponseNegative(userNumber);
+        }
+        else
+        {
+            string value = GradeCalculator(userNumber);
+            View.ResponsePositive(userNumber, value);
+        }
     }
 
     public static string GradeCalculator(int score)
     {
-        if(score >= 90 && score <= 100 )
-        {
+        if (score >= 90)
             return "A";
-        }
-        else if(score >= 80 && score <= 89)
-        {
+        if (score >= 80)
             return "B";
-        }
-        else if(score >= 70 && score <= 79)
-        {
+        if (score >= 70)
             return "C";
-        }
-        else if(score > 60 && score >= 0)
-        {
+        if (score >= 60)
             return "D";
-        }
-         else if (score >= 60 && score <= 69)
-        {
-            return "D";
-        }
-        else if (score >= 0 && score < 60)
-        {
-            return "F";
-        }
-        else
-        {
-            return "Invalid score";
-        }
+        return "F";
     }
 }
