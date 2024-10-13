@@ -9,38 +9,75 @@ namespace GuessTheNumber
         public const int MAX_ATTEMPTS = 5;
     }
     
-    static class View
+    static class GameState //Model
     {
-        public static void ShowIntro(int lower, int higher)
+        public static int number;
+        public static int lower;
+        public static int higher;
+        public static int triesCount;
+
+        public static void InitGame()
+        {
+            triesCount = Config.MAX_ATTEMPTS;
+            number = GenerateNumber();
+            (lower, higher) = GenerateBounds(number);  
+        }
+
+        public static int GenerateNumber()
+        {
+            Random rand = new Random();
+            return rand.Next(0, 101);
+        }
+
+        public static (int lower, int higher) GenerateBounds(int number) 
+        {
+            Random rand = new Random();
+            int lower, higher;
+
+            do
+            {
+                lower = Math.Max(0, rand.Next(number - 10, number));
+                higher = Math.Min(100, rand.Next(number + 1, number + 10));
+            } while (higher - lower <= 5);
+
+            return (lower, higher);
+        }
+    }
+    
+
+    static class GameView //View
+    {
+        public static void Intro()
         {
             Console.Clear();
-            System.Console.WriteLine($"We guessed a number between 0 and 100, it is greater than {lower}, but less than {higher}");
+            System.Console.WriteLine($"We guessed a number between 0 and 100, it is greater than {GameState.lower}, but less than {GameState.higher}");
+            System.Console.WriteLine($"This number is {GameState.number}"); //Check
             System.Console.WriteLine($"What is this number? You have {Config.MAX_ATTEMPTS} attempts to guess");            
         }
         
-        public static void Lose(int number)
+        public static void Lose()
         {
-            System.Console.WriteLine("You lost, alas, but better luck next time. It was a number " + number);
+            System.Console.WriteLine("You lost, alas, but better luck next time. It was a number " + GameState.number);
         }
 
-        public static void Win(int number, int triesCount)
+        public static void Win()
         {
-            System.Console.WriteLine($"You are right. It was number {number}");
-            System.Console.WriteLine($"You guessed in {Config.MAX_ATTEMPTS - triesCount} attempts");
+            System.Console.WriteLine($"You are right. It was number {GameState.number}");
+            System.Console.WriteLine($"You guessed in {Config.MAX_ATTEMPTS - GameState.triesCount + 1} attempts");
         }
 
-        public static void AnotherAttempt(int triesCount)
+        public static void AnotherAttempt()
         {
             System.Console.WriteLine("Not correct, try again");
-            System.Console.WriteLine($"You have {triesCount - 1} attempts left");
+            System.Console.WriteLine($"You have {GameState.triesCount - 1} attempts left");
             System.Console.WriteLine("---------------------------------------");
         }
 
-        public static void Exit()
+        public static int AskNumber()
         {
-            Console.Clear();
-            Console.WriteLine("Thanks for playing!");
-            Console.ReadKey();            
+            System.Console.Write("Your Answer: ");
+            return Convert.ToInt32(Console.ReadLine());
+
         }
         
         public static string AskToPlayAgain()
@@ -56,78 +93,58 @@ namespace GuessTheNumber
                 return "exit";
             }
         }
-    }
 
-    static class GameModel // попробовал убрать логику игры в отдельный обслуживающий класс
-    {
-        public static int GenerateNumber()
+        public static void Exit()
         {
-            Random rand = new Random();
-            return rand.Next(0, 101); //я честно не понимаю как работает return. Не только здесь, но и в целом
-        }
-
-        public static (int lower, int higher) GenerateBounds(int number) 
-        {
-
-            Random rand = new Random();
-            int lower, higher;
-
-            do
-            {
-                lower = Math.Max(0, rand.Next(number - 10, number));
-                higher = Math.Min(100, rand.Next(number + 1, number + 10));
-            } while (higher - lower <= 5);
-
-            return (lower, higher);
+            Console.Clear();
+            Console.WriteLine("Thanks for playing!");
+            Console.ReadKey();            
         }
     }
-    
 
-    class GameController
+    class GameController //Controller
     {
-        private static int number;
-        private static int lower;
-        private static int higher;
-        private static int userInput;
-
         public static void PlayGame()
-        {
-            number = GameModel.GenerateNumber(); //попросил тут чат гпт помочь, чтобы он помог мне не запутаться, что кого вызывает
-            (lower, higher) = GameModel.GenerateBounds(number); //и тут тоже
-
-            View.ShowIntro(lower, higher); 
-            GuessTheNumber(Config.MAX_ATTEMPTS);
+        {   
+            GameState.InitGame();
+            GameView.Intro(); 
+            GuessTheNumber();
         }
 
-        private static void GuessTheNumber(int triesCount) //вот это как будто бы все можно вынести отдельно и вызывать только 1 процесс
-        {
-            System.Console.Write("Your Answer: ");
-            userInput = Convert.ToInt32(Console.ReadLine());
+        private static void GuessTheNumber()
+        {   
+            //1.
+            int triesCount = GameState.triesCount;
+            int number = GameState.number;
+            int userInput = GameView.AskNumber();
+            
+            //2.
 
-            if (triesCount <= 1)
+            if(userInput == number)
             {
-                View.Lose(number);
+                GameView.Win();
                 AskToPlayAgain();
                 return;
             }
-            
-            if(userInput == number)
+
+            if (triesCount <= 1)
             {
-                View.Win(number, triesCount);
+                GameView.Lose();
                 AskToPlayAgain();
                 return;
             }
 
             else
             {
-                View.AnotherAttempt(triesCount);   
-                GuessTheNumber(triesCount - 1);
+                GameView.AnotherAttempt();
+                GameState.triesCount--;   
+                GuessTheNumber();
             }
         }
 
         private static void AskToPlayAgain()
         {
-            string choice = View.AskToPlayAgain();
+            string choice = GameView.AskToPlayAgain();
 
             if (choice == "continue")
             {
@@ -135,7 +152,7 @@ namespace GuessTheNumber
             }
             else
             {
-                View.Exit();
+                GameView.Exit();
             }
         }
     }
