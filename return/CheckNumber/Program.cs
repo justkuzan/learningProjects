@@ -8,9 +8,9 @@ class View
     {
         System.Console.WriteLine("Enter the number");
     }
-    public static void Response(int userNumber, string value)
+    public static void Response(int userNumber, string numberType)
     {           
-        System.Console.WriteLine($"Number {userNumber} is {value}");
+        System.Console.WriteLine($"Number {userNumber} is {numberType}");
     }
 }
 
@@ -20,8 +20,9 @@ class Program
     {
         View.Greetings();
         int userNumber = Convert.ToInt32(Console.ReadLine());
-        string value = CheckNumber(userNumber);
-        View.Response(userNumber, value);
+        // string numberType = CheckNumber(userNumber);
+        
+        View.Response(userNumber, CheckNumber(userNumber));
     }
 
     public static string CheckNumber(int x)

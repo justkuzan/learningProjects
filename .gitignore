@@ -5,6 +5,7 @@
 .learning/
 .screens/
 .learning2.0
+.idea
 
 # User-specific files
 *.suo
