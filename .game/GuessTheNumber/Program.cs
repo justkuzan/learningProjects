@@ -1,88 +1,102 @@
-﻿using System;
-using System.Diagnostics;
-using System.Security.Cryptography.X509Certificates;
-
+﻿
 namespace GuessTheNumber
 {
-    static class Config
+    internal static class Config
     {
-        public const int MAX_ATTEMPTS = 5;
+        internal const int MaxAttempts = 5;
     }
-    
-    static class GameState //Model
+
+
+    internal static class GameState //Model
     {
-        public static int number;
-        public static int lower;
-        public static int higher;
-        public static int triesCount;
+        // private const int MaxAttempts = 5;
+        public static int LowerBound;
+        public static int UpperBound;
+        public static int AttemptsLeft;
+        public static int GuessedNumber;
 
         public static void InitGame()
         {
-            triesCount = Config.MAX_ATTEMPTS;
-            number = GenerateNumber();
-            (lower, higher) = GenerateBounds(number);  
+            AttemptsLeft = Config.MaxAttempts;
+            GenerateBounds();
         }
 
-        public static int GenerateNumber()
+        public static void GenerateBounds()
         {
-            Random rand = new Random();
-            return rand.Next(0, 101);
-        }
 
-        public static (int lower, int higher) GenerateBounds(int number) 
-        {
-            Random rand = new Random();
-            int lower, higher;
+            // Random number generator
+            var randomGenerator = new Random();
 
-            do
+            // Generate a random number between 1 and 10
+            var initialRandomNumber = randomGenerator.Next(1, 11);
+
+            // Calculate range adjustment
+            var rangeModifier = Config.MaxAttempts + initialRandomNumber;
+            var boundaryAdjustment = rangeModifier / 2;
+
+            // Generate a central number between 1 and 100
+            var centralRandomNumber = randomGenerator.Next(1, 100);
+
+            // Calculate the boundaries of the range
+            LowerBound = centralRandomNumber - boundaryAdjustment;
+            UpperBound = centralRandomNumber + boundaryAdjustment;
+
+            if (centralRandomNumber + boundaryAdjustment >= 100)
             {
-                lower = Math.Max(0, rand.Next(number - 10, number));
-                higher = Math.Min(100, rand.Next(number + 1, number + 10));
-            } while (higher - lower <= 5);
+                UpperBound = centralRandomNumber;
+                LowerBound = UpperBound - rangeModifier;
+            }
 
-            return (lower, higher);
+            if (centralRandomNumber - boundaryAdjustment <= 1)
+            {
+                LowerBound = centralRandomNumber;
+                UpperBound = LowerBound + rangeModifier;
+            }
+
+            // Generate the target number within the range
+            GuessedNumber = randomGenerator.Next(LowerBound, UpperBound);
+
         }
     }
-    
 
-    static class GameView //View
+    internal static class GameView //View
     {
         public static void Intro()
         {
             Console.Clear();
-            System.Console.WriteLine($"We guessed a number between 0 and 100, it is greater than {GameState.lower}, but less than {GameState.higher}");
-            System.Console.WriteLine($"This number is {GameState.number}"); //Check
-            System.Console.WriteLine($"What is this number? You have {Config.MAX_ATTEMPTS} attempts to guess");            
+            Console.WriteLine($"We guessed a number between 0 and 100, it is greater than {GameState.LowerBound}, but less than {GameState.UpperBound}");
+            Console.WriteLine($"This number is {GameState.GuessedNumber}"); //Check
+            Console.WriteLine($"What is this number? You have {Config.MaxAttempts} attempts to guess");            
         }
         
         public static void Lose()
         {
-            System.Console.WriteLine("You lost, alas, but better luck next time. It was a number " + GameState.number);
+            Console.WriteLine("You lost, alas, but better luck next time. It was a number " + GameState.GuessedNumber);
         }
 
-        public static void Win()
+        public static void Win()    
         {
-            System.Console.WriteLine($"You are right. It was number {GameState.number}");
-            System.Console.WriteLine($"You guessed in {Config.MAX_ATTEMPTS - GameState.triesCount + 1} attempts");
+            Console.WriteLine($"You are right. It was number {GameState.GuessedNumber}");
+            Console.WriteLine($"You guessed in {Config.MaxAttempts - GameState.AttemptsLeft + 1} attempts");
         }
 
         public static void AnotherAttempt()
         {
-            System.Console.WriteLine("Not correct, try again");
-            System.Console.WriteLine($"You have {GameState.triesCount - 1} attempts left");
-            System.Console.WriteLine("---------------------------------------");
+            Console.WriteLine("Not correct, try again");
+            Console.WriteLine($"You have {GameState.AttemptsLeft - 1} attempts left");
+            Console.WriteLine("---------------------------------------");
         }
 
         public static int AskNumber()
         {
-            System.Console.Write("Your Answer: ");
+            Console.Write("Your Answer: ");
             return Convert.ToInt32(Console.ReadLine());
 
         }
         
         public static string AskToPlayAgain()
         {
-            System.Console.WriteLine("Do you want to play again? (y/n)");
+            Console.WriteLine("Do you want to play again? (y/n)");
             string? input = Console.ReadLine();
             if (input?.ToLower() == "y")
             {
@@ -114,9 +128,9 @@ namespace GuessTheNumber
         private static void GuessTheNumber()
         {   
             //1.
-            int triesCount = GameState.triesCount;
-            int number = GameState.number;
-            int userInput = GameView.AskNumber();
+            var attemptsLeft = GameState.AttemptsLeft;
+            var number = GameState.GuessedNumber;
+            var userInput = GameView.AskNumber();
             
             //2.
 
@@ -127,24 +141,24 @@ namespace GuessTheNumber
                 return;
             }
 
-            if (triesCount <= 1)
+            if (attemptsLeft <= 1)
             {
                 GameView.Lose();
                 AskToPlayAgain();
-                return;
+                // return;
             }
 
             else
             {
                 GameView.AnotherAttempt();
-                GameState.triesCount--;   
+                GameState.AttemptsLeft--;   
                 GuessTheNumber();
             }
         }
 
         private static void AskToPlayAgain()
         {
-            string choice = GameView.AskToPlayAgain();
+            var choice = GameView.AskToPlayAgain();
 
             if (choice == "continue")
             {
