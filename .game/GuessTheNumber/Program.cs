@@ -1,61 +1,35 @@
-﻿
+﻿﻿
 namespace GuessTheNumber
 {
     internal static class Config
     {
         internal const int MaxAttempts = 5;
+        internal const int MinNumberLimit = 0;
+        internal const int MaxNumberLimit = 100;
     }
-
-
+    
     internal static class GameState //Model
     {
-        // private const int MaxAttempts = 5;
-        public static int LowerBound;
-        public static int UpperBound;
+        public static int LeftBound;
+        public static int RightBound;
+        public static int LengthOfTheGuessedNumbers;
         public static int AttemptsLeft;
         public static int GuessedNumber;
 
         public static void InitGame()
         {
             AttemptsLeft = Config.MaxAttempts;
-            GenerateBounds();
+            GenerateGuessedNumber();
         }
 
-        public static void GenerateBounds()
+        public static void GenerateGuessedNumber()
         {
-
-            // Random number generator
             var randomGenerator = new Random();
-
-            // Generate a random number between 1 and 10
-            var initialRandomNumber = randomGenerator.Next(1, 11);
-
-            // Calculate range adjustment
-            var rangeModifier = Config.MaxAttempts + initialRandomNumber;
-            var boundaryAdjustment = rangeModifier / 2;
-
-            // Generate a central number between 1 and 100
-            var centralRandomNumber = randomGenerator.Next(1, 100);
-
-            // Calculate the boundaries of the range
-            LowerBound = centralRandomNumber - boundaryAdjustment;
-            UpperBound = centralRandomNumber + boundaryAdjustment;
-
-            if (centralRandomNumber + boundaryAdjustment >= 100)
-            {
-                UpperBound = centralRandomNumber;
-                LowerBound = UpperBound - rangeModifier;
-            }
-
-            if (centralRandomNumber - boundaryAdjustment <= 1)
-            {
-                LowerBound = centralRandomNumber;
-                UpperBound = LowerBound + rangeModifier;
-            }
-
-            // Generate the target number within the range
-            GuessedNumber = randomGenerator.Next(LowerBound, UpperBound);
-
+            
+            LengthOfTheGuessedNumbers = randomGenerator.Next(Config.MaxAttempts, Config.MaxAttempts * 2);
+            LeftBound = randomGenerator.Next(Config.MinNumberLimit, (Config.MaxNumberLimit-LengthOfTheGuessedNumbers));
+            RightBound = LeftBound + LengthOfTheGuessedNumbers;
+            GuessedNumber = randomGenerator.Next(LeftBound, RightBound);
         }
     }
 
@@ -64,7 +38,8 @@ namespace GuessTheNumber
         public static void Intro()
         {
             Console.Clear();
-            Console.WriteLine($"We guessed a number between 0 and 100, it is greater than {GameState.LowerBound}, but less than {GameState.UpperBound}");
+            Console.WriteLine($"We guessed a number between {Config.MinNumberLimit} and {Config.MaxNumberLimit}," +
+                              $"it is greater than {GameState.LeftBound}, but less than {GameState.RightBound}");
             Console.WriteLine($"This number is {GameState.GuessedNumber}"); //Check
             Console.WriteLine($"What is this number? You have {Config.MaxAttempts} attempts to guess");            
         }
@@ -133,7 +108,6 @@ namespace GuessTheNumber
             var userInput = GameView.AskNumber();
             
             //2.
-
             if(userInput == number)
             {
                 GameView.Win();
