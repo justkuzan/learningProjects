@@ -1,30 +1,32 @@
-﻿using System;
-
-namespace Return;
-
-class Program
+﻿namespace CompareNumbers
 {
-    public static void Main()
-    {   
-        int a = 2;
-        int b = 5;
-        string value = CompareNumbers(a, b);
-        System.Console.WriteLine(CompareNumbers(a, b));
-    }
-
-    public static string CompareNumbers(int a, int b)
+    class Program
     {
-        if(a > b)
+        private static class ProgramState
         {
-            return "A is greater than B";
+            public static int Number1;
+            public static int Number2;
+
+            public static string Compare()
+            {
+                return  Number1 > Number2 ? "A is greater than B" :
+                        Number1 < Number2 ? "B is greater than A" :
+                        "Numbers are equal";
+            }
         }
-        else if(a < b)
+        private static void ProgramView()
         {
-            return "B is greater than A";
+            Console.Write("Enter number 1: ");
+            ProgramState.Number1 = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Enter number 2: ");
+            ProgramState.Number2 = Convert.ToInt32(Console.ReadLine());
+            
+            Console.WriteLine(ProgramState.Compare());
         }
-        else
+        public static void Main()
         {
-            return "Numbers are equal";
+            ProgramView();
         }
     }
 }
+

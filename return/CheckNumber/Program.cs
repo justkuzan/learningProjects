@@ -1,43 +1,16 @@
-﻿using System;
-
-namespace Return;
-
-class View
+﻿namespace CheckNumber
 {
-    public static void Greetings()
+    class Program
     {
-        System.Console.WriteLine("Enter the number");
-    }
-    public static void Response(int userNumber, string numberType)
-    {           
-        System.Console.WriteLine($"Number {userNumber} is {numberType}");
-    }
-}
-
-class Program
-{
-    public static void Main()
-    {
-        View.Greetings();
-        int userNumber = Convert.ToInt32(Console.ReadLine());
-        // string numberType = CheckNumber(userNumber);
-        
-        View.Response(userNumber, CheckNumber(userNumber));
-    }
-
-    public static string CheckNumber(int x)
-    {
-        if(x>0)
+        public static void Main()
         {
-            return "positive";
-        }
-        else if (x<0)
-        {
-            return "negative";
-        }
-        else
-        {
-            return "zero";
+            Console.WriteLine("Enter the number");
+            var userNumber = Convert.ToInt32(Console.ReadLine());
+            
+            var result = userNumber > 0 ? "Positive" : 
+                userNumber < 0 ? "Negative" : "Zero";
+            
+            Console.WriteLine($"Number {userNumber} is {result}");
         }
     }
 }
