@@ -7,8 +7,8 @@ using System.Security.Cryptography.X509Certificates;
 
 class Program
 {
-    static int firstUserNumber;
-    static int secondUserNumber;
+    static double firstUserNumber;
+    static double secondUserNumber;
     static string action;
 
     static void Main(string[] args)
@@ -34,13 +34,13 @@ class Program
     static void RequestData()
     {
         Console.Write("Первое число: ");
-        firstUserNumber = int.Parse(Console.ReadLine());
+        firstUserNumber = double.Parse(Console.ReadLine());
 
         Console.Write("Действие (+, -, *, /): ");
         action = Console.ReadLine();
 
         Console.Write("Второе число: ");
-        secondUserNumber = int.Parse(Console.ReadLine());
+        secondUserNumber = double.Parse(Console.ReadLine());
     }
 
     static void IfElseLogic()
@@ -63,6 +63,9 @@ class Program
                 Console.WriteLine($"Результат: {result}");
             }
         }
+        else {
+            Console.WriteLine("Неизвестная операция.");
+            }
     }
 
     static void SwitchLogic()
