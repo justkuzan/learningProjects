@@ -1,74 +1,62 @@
 ﻿using System;
+using System.Formats.Asn1;
 
-class Program
+namespace Homework
 {
-    static int firstUserNumber;
-    static int secondUserNumber;
-
-    static int even;
-    static int odd;
-
-    static void Main(string[] args)
-    {
-        Console.OutputEncoding = System.Text.Encoding.UTF8;
-
-        RequestData();
-
-        if (secondUserNumber >=0)
-        {
-            PositiveNumbers();
-        }
-        else
-        {
-            NegativeNumbers();
-        }
-        
-    }
-
-    static void  RequestData()
-    {
-        Console.Write("Первое число: ");
-        firstUserNumber = int.Parse(Console.ReadLine());
-
-        Console.Write("Второе число: ");
-        secondUserNumber = int.Parse(Console.ReadLine());
-    }
-
-    static void PositiveNumbers()
-    {
-        while (firstUserNumber <= secondUserNumber)
-        {
-            if (firstUserNumber % 2 == 0)
-            {
-                even += 1;
-                firstUserNumber++;
-            }
-            else
-            {
-                odd += 1;
-                firstUserNumber++;
-            }
-        }
-        
-        System.Console.WriteLine($"Четных: {even}\nНечетных: {odd}");
-}
-
-    static void NegativeNumbers()
-    {
-        while (firstUserNumber >= secondUserNumber)
-        {
-            if (secondUserNumber % 2 == 0)
-            {
-                even += 1;
-                secondUserNumber++;
-            }
-            else
-            {
-                odd += 1;
-                secondUserNumber++;
-            }
-        }
-        
-        System.Console.WriteLine($"Четных: {even}\nНечетных: {odd}");
-    }
+	class Program
+	{
+		static int userNumber;
+		
+		static void Main(string[] args)
+		{
+			Console.OutputEncoding = System.Text.Encoding.UTF8;
+			
+			do
+			{
+				SelectTriangle();
+			}
+			while (Restart());
+		}
+		
+		static void SelectTriangle()
+		{
+	
+			Console.WriteLine("\nВыберите тип треугольника: ");
+			Console.WriteLine("\n1. *\n   **\n   ***");
+			Console.WriteLine("\n2. ***\n   **\n   *");
+			Console.WriteLine("\n3.   *\n    ** \n   ***");
+			Console.WriteLine("\n4. ***\n    **\n     *");
+			
+			int userChoice = int.Parse(Console.ReadLine());
+			switch (userChoice)
+			{
+				case 1:
+					Triangles.FirstTriangle(userNumber);
+				break;
+				
+				case 2:
+					Triangles.SecondTriangle(userNumber);
+				break;
+				
+				case 3:
+					Triangles.ThirdTriangle(userNumber);
+				break;
+				
+				case 4:
+					Triangles.ForthTriangle(userNumber);
+				break;
+				
+				default:
+					Console.WriteLine("Неизвестная кнопка");
+				break;
+			}
+		}
+		
+		static bool Restart()
+		{
+			System.Console.WriteLine("\nХотите попробовать еще раз? (Enter - Да, Esc - Выйти)");
+			ConsoleKey key = Console.ReadKey(true).Key;
+			return key == ConsoleKey.Enter;
+		} 
+	}
 }

@@ -1,8 +1,10 @@
-Microsoft Visual Studio Solution File, Format Version 12.00
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Learning", "Learning.csproj", "{034F9477-D85E-7242-9283-8F1EE4EFE787}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedievalWalk", "..\..\.game\MedievalWalk\MedievalWalk.csproj", "{920ED279-EFFC-4CAD-A987-058016E78BD3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,6 +16,10 @@ Global
 		{034F9477-D85E-7242-9283-8F1EE4EFE787}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{034F9477-D85E-7242-9283-8F1EE4EFE787}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{034F9477-D85E-7242-9283-8F1EE4EFE787}.Release|Any CPU.Build.0 = Release|Any CPU
+		{920ED279-EFFC-4CAD-A987-058016E78BD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{920ED279-EFFC-4CAD-A987-058016E78BD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{920ED279-EFFC-4CAD-A987-058016E78BD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{920ED279-EFFC-4CAD-A987-058016E78BD3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
