@@ -6,22 +6,15 @@ namespace Learning
 	{
 		static void Main()
 		{
-			Console.OutputEncoding = System.Text.Encoding.UTF8;
+			int[] myArray = {10,3,2,55};
 			
-			System.Console.WriteLine("Введите высоту прямоугольника: ");
-			int height = int.Parse(Console.ReadLine());
-			
-			System.Console.WriteLine("Введите ширину прямоугольника: ");
-			int width = int.Parse(Console.ReadLine());
-			
-			for (int j = 0; j < height; j++)
+			for (int i = 0; i < myArray.Length; i++)
 			{
-				for (int i = 0; i < width; i++ )
-				{
-					System.Console.Write("#");
-				}
-				System.Console.WriteLine();
-			}
+				Console.WriteLine(myArray[i]);
+			}	
+			
+			Console.ReadLine();			
+			
 		}
 	}
 }
