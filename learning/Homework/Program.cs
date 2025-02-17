@@ -21,7 +21,8 @@ namespace Homework
 			}
 
 			Console.WriteLine("\nВывод массива:");
-			for (int i = 0; i < myArray.Length; i++)
+			
+			for (int i = myArray.Length - 1; i >= 0; i--) //Забыл что индексы в массиве начинаются с нуля
 			{
 				Console.WriteLine(myArray[i]);
 			}
