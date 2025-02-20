@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Formats.Asn1;
+using System.Globalization;
 
 namespace Homework
 {
@@ -8,24 +9,21 @@ namespace Homework
 		static void Main(string[] args)
 		{
 			Console.OutputEncoding = System.Text.Encoding.UTF8;
-
-			Console.Write("Введите количество элементов массива:\t");
-			int elementsCount = int.Parse(Console.ReadLine() ?? "0");
 			
-			int[] myArray = new int[elementsCount];
+			int[] myArray = new int[] {5,6,7,8};
+			int result = 0; //не догадался добавить переменную куда будем записывать результат
+
+			Console.WriteLine("\nСумма всех четных чисел массива:");
 			
 			for (int i = 0; i < myArray.Length; i++)
 			{
-				Console.Write($"\nВведите элемент массива под индексом {i}:\t ");
-				myArray[i] = int.Parse(Console.ReadLine() ?? "0");
+				if (myArray[i] % 2 == 0)
+				{
+					result += myArray[i]; //не догадался как суммирование можно реализовать
+				}
 			}
-
-			Console.WriteLine("\nВывод массива:");
 			
-			for (int i = myArray.Length - 1; i >= 0; i--) //Забыл что индексы в массиве начинаются с нуля
-			{
-				Console.WriteLine(myArray[i]);
-			}
+			Console.WriteLine(result);
 		}
 	}
 }
