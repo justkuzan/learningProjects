@@ -6,24 +6,28 @@ namespace Homework
 {
 	class Program
 	{	
+		//Наименьшее число в массиве
 		static void Main(string[] args)
 		{
 			Console.OutputEncoding = System.Text.Encoding.UTF8;
 			
-			int[] myArray = new int[] {5,6,7,8};
-			int result = 0; //не догадался добавить переменную куда будем записывать результат
-
-			Console.WriteLine("\nСумма всех четных чисел массива:");
+			int[] myArray = new int[] {24,17,4,39};
 			
-			for (int i = 0; i < myArray.Length; i++)
+			int k = myArray[0];
+
+			Console.WriteLine("\nНаименьшее число в массиве:");
+			
+			for (int i = 1; i < myArray.Length; i++)
 			{
-				if (myArray[i] % 2 == 0)
+				if(myArray[i] < k)
 				{
-					result += myArray[i]; //не догадался как суммирование можно реализовать
+					k = myArray[i];
 				}
 			}
 			
-			Console.WriteLine(result);
+			Console.WriteLine(k);
+			
+			
 		}
 	}
 }
