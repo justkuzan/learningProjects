@@ -6,28 +6,23 @@ namespace Homework
 {
 	class Program
 	{
-		//Наименьшее число в массиве
 		static void Main(string[] args)
 		{
-			Console.OutputEncoding = System.Text.Encoding.UTF8;
+			Console.Write("Введите символ: ");
+			string symbol = Console.ReadLine();
 
-			int[] myArray = new int[] { 24, 17, 4, 39 };
+			Console.Write("Введите количество: ");
+			uint quantity = Convert.ToUInt32(Console.ReadLine());
 
-			int k = myArray[0];
+			PrintLine(symbol, quantity);
+		}
 
-			Console.WriteLine("\nНаименьшее число в массиве:");
-
-			for (int i = 1; i < myArray.Length; i++)
+		static void PrintLine(string symbol, uint quantity)
+		{
+			for (int i = 0; i < quantity; i++)
 			{
-				if (myArray[i] < k)
-				{
-					k = myArray[i];
-				}
+				Console.Write(symbol);
 			}
-
-			Console.WriteLine(k);
-
-
 		}
 	}
 }
